@@ -2,12 +2,11 @@
 $title = "Pengaturan";
 require 'koneksi.php';
 
-
-    $queryedit = "SELECT * FROM tb_instansi";
+    $id_instansi = $_GET['id'];
+    $queryedit = "SELECT * FROM tb_instansi WHERE id_instansi='$id_instansi'";
     $edit = ambilsatubaris($conn,$queryedit);
 
     if(isset($_POST['simpan'])) {
-
 
         $nama = $_POST['nama'] ;
         $npsn = $_POST['npsn'] ;
@@ -19,15 +18,17 @@ require 'koneksi.php';
         $instansi_induk = $_POST['instansi_induk'];
         $nama_kepsek = $_POST['nama_kepsek'];
         $nip_kepsek = $_POST['nip_kepsek'];
+        $fotolama = $_POST['fotolama'];
 
         $logo = $_FILES['logo']['name'];
         $file_tmp = $_FILES['logo']['tmp_name'] ;
 
 
         if ($logo) {
+            unlink('instansi/'.$fotolama);
+
             move_uploaded_file($file_tmp, 'instansi/'.$logo) ;
-            $query = "INSERT INTO tb_instansi SET 
-                                            nama = '$nama',
+            $query = "UPDATE tb_instansi SET nama = '$nama',
                                             npsn = '$npsn',
                                             alamat = '$alamat',
                                             kota = '$kota',
@@ -37,25 +38,30 @@ require 'koneksi.php';
                                             instansi_induk = '$instansi_induk',
                                             nama_kepsek = '$nama_kepsek',
                                             nip_kepsek = '$nip_kepsek',
-                                            logo = '$logo' ";
-        }else {
-            move_uploaded_file($file_tmp, 'instansi/'.$logo) ;
-            $query = "INSERT INTO tb_instansi SET 
-                                            nama = '$nama',
-                                            npsn = '$npsn',
-                                            alamat = '$alamat',
+                                            logo = '$logo'
+                                            WHERE id_instansi='$id_instansi' ";
+        } else {
+            $query = "UPDATE tb_instansi SET nama = '$nama', npsn = '$npsn', alamat = '$alamat',
                                             kota = '$kota',
                                             provinsi = '$provinsi',
                                             telp = '$telp',
                                             email = '$email',
                                             instansi_induk = '$instansi_induk',
                                             nama_kepsek = '$nama_kepsek',
-                                            nip_kepsek = '$nip_kepsek',
-                                            logo = '$logo' ";
+                                            nip_kepsek = '$nip_kepsek'
+                                            WHERE id_instansi='$id_instansi' ";
         }
 
-        mysqli_query($conn, $query) or die("SQL Error " .mysqli_error());
+        $execute = bisa($conn,$query);
+        if($execute == 1){
+            header('location: pengaturan.php');
+        }else{
+            echo "Gagal Tambah Data";
+        }
+
+
     }
+
 
     require 'layout-header.php';
 ?>
@@ -67,12 +73,12 @@ require 'koneksi.php';
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Data Pendukung</h1>
                         <div>
-                            <span>Data Pendukung / <?= $title?></span>
+                            <span>Data Pendukung / <?= $title?> / Pengaturan Edit</span>
                         </div>
                     </div>
 
                     <!-- Content Row -->
-                    <div class="col-lg-12 align-items-center justify-content-between">
+                    <div class="col-lg-13">
                         <!-- Basic Card Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header bg-primary py-3">
@@ -81,73 +87,72 @@ require 'koneksi.php';
                             <div class="card-body">
                                 <form enctype="multipart/form-data" action="" method="post">
                                     <table width="100%">
-                                        <tr>
-                                            <td colspan="2">
-                                                <center><img src="instansi/<?= $edit['logo']?>" width="250"></center>
-                                            </td>
-                                        </tr>
                                         <tr  height="70px">
                                             <div class="form-group">
                                                 <td><label class="font-weight-bold d-inline" width="20%">Nama Sekolah</label></td>
-                                                <td width="80%"><input type="text" name="nama" class="form-control-plaintext" placeholder="nama sekolah" value="<?= $edit['nama'] ?>" readonly></td>
+                                                <td width="80%"><input type="text" name="nama" class="form-control" placeholder="nama sekolah" value="<?= $edit['nama'] ?>" ></td>
                                             </div>
                                         </tr>
                                         <tr  height="70px">
                                             <div class="form-group">
                                                 <td><label class="font-weight-bold d-inline">Npsn</label></td>
-                                                <td width="80%"><input type="text" name="npsn" class="form-control-plaintext" placeholder="npsn" value="<?= $edit['npsn'] ?>" readonly></td>
+                                                <td width="80%"><input type="text" name="npsn" class="form-control" placeholder="npsn" value="<?= $edit['npsn'] ?>" ></td>
                                             </div>
                                         </tr>
                                         <tr  height="70px">
                                             <div class="form-group">
                                                 <td><label class="font-weight-bold d-inline">Alamat</label></td>
-                                                <td width="80%"><input type="text" name="alamat" class="form-control-plaintext" placeholder="alamat" value="<?= $edit['alamat'] ?>" readonly></td>
+                                                <td width="80%"><input type="text" name="alamat" class="form-control" placeholder="alamat" value="<?= $edit['alamat'] ?>" ></td>
                                             </div>
                                         </tr>
                                         <tr  height="70px">
                                             <div class="form-group">
                                                 <td><label class="font-weight-bold d-inline">Kota</label></td>
-                                                <td width="80%"><input type="text" name="kota" class="form-control-plaintext" placeholder="nama kota" value="<?= $edit['kota'] ?>" readonly></td>
+                                                <td width="80%"><input type="text" name="kota" class="form-control" placeholder="nama kota" value="<?= $edit['kota'] ?>" ></td>
                                             </div>
                                         </tr>
                                         <tr  height="70px">
                                             <div class="form-group">
                                                 <td><label class="font-weight-bold d-inline">Provinsi</label></td>
-                                                <td width="80%"><input type="text" name="provinsi" class="form-control-plaintext" placeholder="Provinsi" value="<?= $edit['provinsi'] ?>" readonly></td>
+                                                <td width="80%"><input type="text" name="provinsi" class="form-control" placeholder="Provinsi" value="<?= $edit['provinsi'] ?>" ></td>
                                             </div>
                                         </tr>
                                         <tr  height="70px">
                                             <div class="form-group">
                                                 <td><label class="font-weight-bold d-inline">Telp</label></td>
-                                                <td width="80%"><input type="text" name="telp" class="form-control-plaintext" placeholder="no telp" value="<?= $edit['telp'] ?>" readonly></td>
+                                                <td width="80%"><input type="text" name="telp" class="form-control" placeholder="no telp" value="<?= $edit['telp'] ?>" ></td>
                                             </div>
                                         </tr>
                                         <tr  height="70px">
                                             <div class="form-group">
                                                 <td><label class="font-weight-bold d-inline">Email</label></td>
-                                                <td width="80%"><input type="text" name="email" class="form-control-plaintext" placeholder="Email" value="<?= $edit['email'] ?>" readonly></td>
+                                                <td width="80%"><input type="text" name="email" class="form-control" placeholder="Email" value="<?= $edit['email'] ?>" ></td>
                                             </div>
                                         </tr>
                                         <tr  height="70px">
                                             <div class="form-group">
                                                 <td><label class="font-weight-bold d-inline">Instansi Induk</label></td>
-                                                <td width="80%"><input type="text" name="instansi_induk" class="form-control-plaintext" placeholder="instansi induk" value="<?= $edit['instansi_induk'] ?>" readonly></td>
+                                                <td width="80%"><input type="text" name="instansi_induk" class="form-control" placeholder="instansi induk" value="<?= $edit['instansi_induk'] ?>" ></td>
                                             </div>
                                         </tr>
                                         <tr  height="70px">
                                             <div class="form-group">
                                                 <td><label class="font-weight-bold d-inline">Nama Kepala Sekolah</label></td>
-                                                <td width="80%"><input type="text" name="nama_kepsek" class="form-control-plaintext" placeholder="nama kepala sekolah" value="<?= $edit['nama_kepsek'] ?>" readonly></td>
+                                                <td width="80%"><input type="text" name="nama_kepsek" class="form-control" placeholder="nama kepala sekolah" value="<?= $edit['nama_kepsek'] ?>" ></td>
                                             </div>
                                         </tr>
                                         <tr  height="70px">
                                             <div class="form-group">
                                                 <td><label class="font-weight-bold d-inline">Nip Kepala Sekolah</label></td>
-                                                <td width="80%"><input type="text" name="nip_kepsek" class="form-control-plaintext" placeholder="nip kepala sekolah" value="<?= $edit['nip_kepsek'] ?>" readonly></td>
+                                                <td width="80%"><input type="text" name="nip_kepsek" class="form-control" placeholder="nip kepala sekolah" value="<?= $edit['nip_kepsek'] ?>" ></td>
                                             </div>
                                         </tr>
                                         <tr>
                                             <td></td>
+                                            <td>
+                                                <img src="instansi/<?= $edit['logo']?>" width="150" <small> Gunakan File Image ukuran 150px</small>
+                                                <input type="hidden" name="fotolama" value="<?php echo $edit['logo']; ?>" >
+                                            </td>
                                         </tr>
                                         <tr  height="70px">
                                             <td><label class="font-weight-bold d-inline">Upload Logo <small>jpg | jpeg</small></label></td>
@@ -163,7 +168,7 @@ require 'koneksi.php';
                                 
                                     </div>
                                     <div class="card-header">
-                                            <a href="pengaturan-edit.php?id=<?php echo $edit['id_instansi']; ?>" class="btn btn-primary"> Update Pengaturan</a>
+                                        <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
                                     </div>
                                 </form>
                         </div>

@@ -1,7 +1,7 @@
 <?php 
-require 'header.php';
+$title = "Dashboard";
+require 'layout-header.php';
 
-$halaman = 'Dashboard';
 ?>
 
                 <!-- Begin Page Content -->
@@ -9,7 +9,7 @@ $halaman = 'Dashboard';
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800"><?= $halaman ?></h1>
+                        <h1 class="h3 mb-0 text-gray-800"><?= $title ?></h1>
                         <div>
                             <span><a href="#" class="text-dark">Dashboard</a></span>
                         </div>
@@ -29,7 +29,7 @@ $halaman = 'Dashboard';
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -47,7 +47,7 @@ $halaman = 'Dashboard';
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@ $halaman = 'Dashboard';
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@ $halaman = 'Dashboard';
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@ $halaman = 'Dashboard';
                             <div class="card-body">
                                 <ol>
                                     <li>Isi Daftar Tahun Ajaran <a href="tahun-ajaran.php">Go To Tahun Ajaran</a></li>
-                                    <li>Isi Daftar Tahun Ajaran <a href="tahun-ajaran.php">Go To Tahun Ajaran</a></li>
+                                    <li>Isi Kelas <a href="kelas.php">Go To Kelas</a></li>
                                     <li>Isi Daftar Tahun Ajaran <a href="tahun-ajaran.php">Go To Tahun Ajaran</a></li>
                                     <li>Isi Daftar Tahun Ajaran <a href="tahun-ajaran.php">Go To Tahun Ajaran</a></li>
                                     <li>Isi Daftar Tahun Ajaran <a href="tahun-ajaran.php">Go To Tahun Ajaran</a></li>
